@@ -1,45 +1,42 @@
 <template>
   <div id="app">
-    
+    <nav class="nav top-nav">
+      <div class="nav-left">
+        <router-link to="/" class="title is-3 nav-item">Online House Retail</router-link>
+      </div>
+    </nav>
+    <div class="main-container columns">
+      <div class="column is-three-quarters">
+        <router-view></router-view>
+      </div>
+      <div class="column is-one-quarter">
+        <router-link to="/add" class="button is-primary is-large">Sell Now !</router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
+  name: 'app'
 }
 </script>
 
 <style lang="scss">
+
+$greenie : rgba(0,178,105,0.7);
+$light-greenie : rgba(85,255,185,0.9);
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
-
-h1, h2 {
-  font-weight: normal;
+.main-container {
+  margin: 2em;
 }
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+.top-nav {
+  background-color: $light-greenie;
+  padding: 1em;
 }
 </style>

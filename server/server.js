@@ -2,14 +2,14 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-require('dotenv').config()
 const port = 3000 || process.env.PORT
 
 const app = express()
 
 /* App Config */
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://andras:'+process.env.MONGO_PW+'@hacktivoveflow-shard-00-00-j1amx.mongodb.net:27017,hacktivoveflow-shard-00-01-j1amx.mongodb.net:27017,hacktivoveflow-shard-00-02-j1amx.mongodb.net:27017/online-house-sell?ssl=true&replicaSet=hacktivoveflow-shard-0&authSource=admin')
+let localDB = 'mongodb://localhost/test-online-house'
+mongoose.connect(localDB)
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error'))
 db.once('open', ()=> {
