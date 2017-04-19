@@ -32,10 +32,10 @@
               <p class="control"><textarea class="textarea" v-model="oneHouse.address" placeholder="Address"></textarea></p>
             </div>
             <div class="field">
-                <gmap-map :center="{lat:1.38, lng:103.8}" :zoom="10" class="map-container">
-                  <gmap-marker :position="{lat:1.38, lng:103.8}">
-                  </gmap-marker>
-                </gmap-map>
+              <gmap-map :center="{lat:oneHouse.coordinate.lat, lng:oneHouse.coordinate.lon}" :zoom="10" class="map-container">
+                <gmap-marker :position="{lat:oneHouse.coordinate.lat, lng:oneHouse.coordinate.lon}">
+                </gmap-marker>
+              </gmap-map>
             </div>
             <div class="field level-item">
               <p class="control"><button class="button is-primary" @click="newHouse(oneHouse)">Submit</button></p>
@@ -84,9 +84,5 @@ export default {
 <style lang="scss" scoped>
 .house {
   margin: 1em;
-}
-.map-container {
-  width: 100%;
-  height: 400px;
 }
 </style>

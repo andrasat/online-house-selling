@@ -45,8 +45,10 @@ module.exports = {
       }
     }, {new: true}, (err, house)=> {
       if(err) {
+        console.log('update failed')
         res.status(400).send(err)
       } else {
+        console.log('update success')
         res.send(house)
       }
     })
@@ -54,8 +56,10 @@ module.exports = {
   deleteHouse: (req,res)=> {
     House.findByIdAndRemove(req.params.id, (err, house)=> {
       if(err) {
+        console.log(err)
         res.status(400).send(err)
       } else {
+        console.log('success')
         res.send(house)
       }
     })

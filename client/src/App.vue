@@ -39,4 +39,8 @@ $light-greenie : rgba(85,255,185,0.9);
   background-color: $light-greenie;
   padding: 1em;
 }
+.map-container {
+  width: 100%;
+  height: 400px;
+}
 </style>
