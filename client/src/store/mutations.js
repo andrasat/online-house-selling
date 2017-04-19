@@ -18,6 +18,18 @@ export const state = {
   modalClass: {
     'modal': true,
     'is-active': false
+  },
+  center: {
+    lat: -6.260310,
+    lng: 106.779885
+  },
+  position: {
+    lat: -6.260310,
+    lng: 106.779885
+  },
+  positionChanged: {
+    lat: -6.260310,
+    lng: 106.779885
   }
 }
 
@@ -30,6 +42,12 @@ export const getters = {
   },
   getModalClass(state) {
     return state.modalClass
+  },
+  getCenter(state) {
+    return state.center
+  },
+  getPosition(state) {
+    return state.position
   }
 }
 
@@ -58,6 +76,22 @@ export const mutations = {
   },
   SET_MODALACTIVE(state, value) {
     state.modalClass['is-active'] = value
+  },
+  SET_REPORTEDCENTER(state, event) {
+    state.reportedCenter = {
+      lat: event.lat(),
+      lng: event.lng()
+    }
+  },
+  SET_POSITIONCHANGE(state, event) {
+    state.positionChanged = {
+      lat: event.lat(),
+      lng: event.lng()
+    }
+    state.house.coordinate = {
+      lat: event.lat(),
+      lon: event.lng()
+    }
   }
 }
 
@@ -73,7 +107,7 @@ export const actions = {
         setTimeout(()=> {commit('SET_ERROR', false)}, 3500)
       })
   },
-  newHouse({commit}, house) {
+  newHouse({commit, state}, house) {
     axios.post('http://localhost:3000/api/house', {
       title: house.title,
       price: house.price,
@@ -81,8 +115,8 @@ export const actions = {
       description: house.description,
       imgUrl: house.imgUrl,
       owner: house.owner,
-      lon: house.coordinate.lon,
-      lat: house.coordinate.lat
+      lon: house.coordinate.lon ? house.coordinate.lon : state.center.lng,
+      lat: house.coordinate.lat ? house.coordinate.lat : state.center.lat
     })
       .then((res)=> {
         commit('PUSH_HOUSE', res.data)
@@ -94,7 +128,7 @@ export const actions = {
         setTimeout(()=> {commit('SET_ERROR', false)}, 3500)
       })
   },
-  editHouse({commit}, house) {
+  editHouse({commit, state}, house) {
     axios.put('http://localhost:3000/api/house/'+house._id, {
       title: house.title,
       price: house.price,
@@ -102,8 +136,8 @@ export const actions = {
       description: house.description,
       imgUrl: house.imgUrl,
       owner: house.owner,
-      lon: house.coordinate.lon,
-      lat: house.coordinate.lat
+      lon: house.coordinate.lon ? house.coordinate.lon : state.center.lng,
+      lat: house.coordinate.lat ? house.coordinate.lat : state.center.lat
     })
       .then((res)=> {
         commit('EDIT_HOUSE', house)
@@ -144,5 +178,11 @@ export const actions = {
   },
   getOneHouse({commit}, house) {
     commit('GET_ONE_HOUSE', house)
+  },
+  changeReportedCenter({commit}, ev) {
+    commit('SET_REPORTEDCENTER', ev)
+  },
+  changePosition({commit}, ev) {
+    commit('SET_POSITIONCHANGE', ev)
   }
 }
