@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "accounting-js": "^1.1.1",
     "vue": "^2.2.2",
     "vue-router": "^2.3.0",
     "vue2-google-maps": "^0.7.5",

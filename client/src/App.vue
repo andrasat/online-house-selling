@@ -6,10 +6,10 @@
       </div>
     </nav>
     <div class="main-container columns">
-      <div class="column is-three-quarters">
+      <div class="column is-10">
         <router-view></router-view>
       </div>
-      <div class="column is-one-quarter">
+      <div class="column is-2">
         <router-link to="/add" class="button is-primary is-large">Sell Now !</router-link>
       </div>
     </div>

@@ -7,20 +7,23 @@
       <div class="media">
         <div class="media-left">
           <div class="field">
-            <p class="control core-info title is-4">{{ house.title }}</p>
-            <p class="control core-info subtitle is-6">Owner : {{ house.owner }}</p>
+            <p class="core-info title is-4">{{ house.title }}</p>
+            <p class="core-info subtitle is-6">Owner : {{ house.owner }}</p><br>
+            <p class="core-info title is-3">Harga: Rp. {{ formatPrice(house.price) }}</p>
           </div>
         </div>
         <div class="media-content">
           <div class="field">
-            <p class="title is-3">Harga: {{ house.price }}</p>
+            <img :src="house.imgUrl" width="100%" height="350px" alt="Foto Rumah">
             <p class="title is-5">{{ house.description }}</p>
             <p class="title is-5">{{ house.address }}</p>
-            <p class="title is-6">LAT: {{ house.coordinate.lat }}, LON: {{ house.coordinate.lon }}</p>
+            <gmap-map :center="{lat: house.coordinate.lat, lng: house.coordinate.lon}" map-type-id="terrain" :zoom="15" class="map-container-home">
+              <gmap-marker :position="{lat: house.coordinate.lat, lng: house.coordinate.lon}">
+              </gmap-marker>
+            </gmap-map>
           </div>
-          <img :src="house.imgUrl" width="600px" height="400px" alt="Foto Rumah">
           <div class="field is-grouped">
-            <a id="delete" class="control button is-warning" @click="changeModalStatus(true), getOneHouse(house)"><span class="icon is-medium"><i class="fa fa-pencil"></i></span></a>
+            <a id="delete" class="control button is-warning" @click="changeModalStatus(true), getOneHouse(house), setCenterAndPosition(house.coordinate)"><span class="icon is-medium"><i class="fa fa-pencil"></i></span></a>
             <a id="delete" class="control button is-danger" @click="deleteHouse(house)"><span class="icon is-medium"><i class="fa fa-times"></i></span></a>
           </div>
         </div>
@@ -59,12 +62,10 @@
                 <label class="label">Address</label>
                 <p class="control"><textarea class="textarea" v-model="oneHouse.address" placeholder="Address"></textarea></p>
               </div>
-              <div class="field">
-                <gmap-map :center="{lat:oneHouse.coordinate.lat, lng:oneHouse.coordinate.lon}" :zoom="10" class="map-container">
-                  <gmap-marker :position="{lat:oneHouse.coordinate.lat, lng:oneHouse.coordinate.lon}">
-                  </gmap-marker>
-                </gmap-map>
-              </div>
+              <gmap-map :center="getCenter" map-type-id="terrain" :zoom="15" class="map-container">
+                <gmap-marker :position="getPosition" @position_changed="changePosition($event)" :clickable="true" :draggable="true">
+                </gmap-marker>
+              </gmap-map>
               <div class="field level-item">
                 <p class="control"><button class="button is-primary" @click="editHouse(oneHouse)">Submit</button></p>
               </div>
@@ -86,12 +87,15 @@
 <script>
 import { mapActions } from 'vuex'
 import { mapGetters } from 'vuex'
+import accounting from 'accounting-js'
 export default {
   name: 'home',
   computed: {
     ...mapGetters([
       'allHouses',
-      'oneHouse'
+      'oneHouse',
+      'getCenter',
+      'getPosition'
     ])
   },
   methods: {
@@ -100,10 +104,12 @@ export default {
       'editHouse',
       'deleteHouse',
       'changeModalStatus',
-      'getOneHouse'
+      'getOneHouse',
+      'changePosition',
+      'setCenterAndPosition'
     ]),
     formatPrice(data) {
-
+      return accounting.formatNumber(data)
     }
   },
   mounted() {
@@ -116,5 +122,9 @@ export default {
 <style lang="scss" scoped>
 .each-house {
   margin: 1em;
+}
+.map-container-home {
+  width: 100%;
+  height: 200px;
 }
 </style>

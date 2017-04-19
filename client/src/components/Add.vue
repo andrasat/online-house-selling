@@ -32,7 +32,7 @@
               <p class="control"><textarea class="textarea" v-model="oneHouse.address" placeholder="Address"></textarea></p>
             </div>
             <div class="field">
-              <gmap-map :center="getCenter" @center_changed="" :zoom="15" class="map-container">
+              <gmap-map :center="getCenter" map-type-id="terrain" :zoom="15" class="map-container">
                 <gmap-marker :position="getPosition" @position_changed="changePosition($event)" :clickable="true" :draggable="true">
                 </gmap-marker>
               </gmap-map>
@@ -63,7 +63,6 @@ export default {
     ...mapGetters([
       'oneHouse',
       'getCenter',
-      'getReportedCenter',
       'getPosition'
     ])
   },
@@ -74,13 +73,19 @@ export default {
     ]),
     ...mapActions([
       'newHouse',
-      'changeReportedCenter',
-      'changePosition'
+      'changePosition',
+      'getOneHouse'
     ]),
     closeNotif() {
       this.setSuccess(false)
       this.setError(false)
+    },
+    resetHouse() {
+      getOneHouse({})
     }
+  },
+  mounted() {
+    this.resetHouse()
   }
 }
 </script>

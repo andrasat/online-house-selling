@@ -26,10 +26,6 @@ export const state = {
   position: {
     lat: -6.260310,
     lng: 106.779885
-  },
-  positionChanged: {
-    lat: -6.260310,
-    lng: 106.779885
   }
 }
 
@@ -77,20 +73,20 @@ export const mutations = {
   SET_MODALACTIVE(state, value) {
     state.modalClass['is-active'] = value
   },
-  SET_REPORTEDCENTER(state, event) {
-    state.reportedCenter = {
-      lat: event.lat(),
-      lng: event.lng()
-    }
-  },
   SET_POSITIONCHANGE(state, event) {
-    state.positionChanged = {
-      lat: event.lat(),
-      lng: event.lng()
-    }
     state.house.coordinate = {
       lat: event.lat(),
       lon: event.lng()
+    }
+  },
+  SET_CENTER_AND_POSITION(state, value) {
+    state.center = {
+      lat: value.lat,
+      lng: value.lon
+    }
+    state.position = {
+      lat: value.lat,
+      lng: value.lon
     }
   }
 }
@@ -179,10 +175,10 @@ export const actions = {
   getOneHouse({commit}, house) {
     commit('GET_ONE_HOUSE', house)
   },
-  changeReportedCenter({commit}, ev) {
-    commit('SET_REPORTEDCENTER', ev)
-  },
   changePosition({commit}, ev) {
     commit('SET_POSITIONCHANGE', ev)
+  },
+  setCenterAndPosition({commit}, value) {
+    commit('SET_CENTER_AND_POSITION', value)
   }
 }
